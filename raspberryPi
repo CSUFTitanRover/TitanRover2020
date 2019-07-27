@@ -1,0 +1,68 @@
+
+
+Needed:
+
+    Raspberry pi
+    Micro SD Card (flashed with Raspbian Buster with desktop)
+    5V, 2.5A power supply
+    HDMI cable
+    HDMI monitor and power cable
+    keyboard/mouse
+    Breadboard
+    1x LED
+    1x 330 ohm resistor
+    2x female-to-male wires
+
+Perform the following steps using a Raspberry pi:
+
+    Insert SD card, connect keyboard/mouse, connect hdmi cable from pi to monitor, connect monitor power cable
+    Plug in pi power supply last
+    Log into the pi desktop environment
+    Make sure its connected to titan-share
+    Open terminal and type 'ifconfig' to find the IP address of the pi
+        This is the wlan0 inet address i.e. 192.168.1.15
+
+Perform the following steps on another computer that has terminal and is connected to titan-share:
+
+For the following IP addresses, substitute 15 for the number obtained from ifconfig
+
+    In terminal enter ping 192.168.1.15 to make sure you are successfully reaching it
+        Enter ctrl + c to stop
+    Create a new file named gpio.py in a text editor and copy/type the attached code into the file (use 4 spaces for indentation, NOT tabs)
+        To use nano enter nano gpio.py
+        Save the file and note the location
+    Use scp to transfer the file to the pi
+        Make sure you are in the same directory as the gpio.py file in terminal
+        Enter scp gpio.py pi@192.168.1.15:/home/pi/Documents
+    Connect to the pi using ssh
+        In terminal enter: ssh pi@192.168.1.15
+            ssh is a protocol
+            pi is the user
+            192.168.1.15 is the host
+        cd into the Documents directory (use commands: ls, pwd, cd)
+        Enter ls to view the contents of Documents and verify gpio.py is there
+
+Wiring the Raspberry pi and breadboard:
+
+    To view a GPIO diagram in greater detail: type pinout in terminal
+    Use the attached schematic as reference to set up the circuit
+        Plug in the LED
+            longer leg = positive (power), shorter leg = negative (ground)
+        Plug in the resistor
+        Plug in ground wire
+        Plug in GPIO (power) wire
+
+Running the script:
+
+    Return to the remote ssh session and type python gpio.py
+    Interact with the program and test the light
+    Enter ctrl + c to stop
+    Edit the pi file again by typing nano gpio.py in the terminal and add the following functionality:
+        Now instead of the light turning off for 4 seconds when you type rover, make it blink (on/off) using a loop (loop can be any arbitrary number of iterations i.e. 20)
+            HINT: research python loops if you're unfamiliar with them and use the code already written in gpio.py to complete this
+
+To power off the pi:
+
+    Use the pi desktop or enter sudo init 0 from either the pi desktop terminal or remote ssh terminal session (may ask for password again)
+    Once the green light stops blinking on the pi, you may disconnect power
+
