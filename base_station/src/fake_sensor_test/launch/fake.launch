@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="fake_sensor_test" type="postgnss.py" name="postgnss"/>
+    <node pkg="fake_sensor_test" type="postimu.py" name="postimu"/>
+</launch>

@@ -1,0 +1,16 @@
+<launch>
+<!--<node pkg="finalimu" type="run_Imu.py" name="imu"/>
+<node pkg="gnss" type="reach.py" name="gnss"/>
+-->
+<include file="/home/rover/catkin_ws/src/sick_scan/launch/sick_lms_1xx.launch"/>
+<node pkg="tf" type="static_transform_publisher" name="connect_laser_to_map" args="0 0 0 0 0 3.14159 map laser 10" />
+<node pkg="tf" type="static_transform_publisher" name="connect_base_link_to_laser" args="0 0 0 0 0 3.14159 laser base_link 10" />
+<include file="/home/rover/catkin_ws/src/odomfix/launch.launch"/>
+<include file="/home/rover/catkin_ws/src/imu/launch/imu.launch"/> 
+<node pkg="tf" type="static_transform_publisher" name="connect_imu_to_map" args="0 0 0 0 0 0 1 map imu 10" />
+<node pkg="tf" type="static_transform_publisher" name="connect_bno055_to_map" args="0 0 0 0 0 0 1 map BNO055 10" />
+<node pkg="tf" type="static_transform_publisher" name="connect_bno055_to_imu" args="0 0 0 0 0 0 1 imu BNO055 10" />
+<node pkg="gmapping" type="slam_gmapping" name="gmapping_thing" output="screen" >
+ </node>
+<node type="rviz" name="rviz" pkg="rviz" />
+</launch>

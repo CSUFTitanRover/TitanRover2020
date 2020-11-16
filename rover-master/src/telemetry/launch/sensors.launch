@@ -1,0 +1,14 @@
+<launch>
+
+<!--IMU-->
+<node pkg="imu" type="run_imu.py" name="imu" required="true" />
+
+<!--Lidar
+<node name="sick_lms_1xx" pkg="sick_scan" type="sick_generic_caller" respawn="false" output="screen" required="false">
+-->
+
+<!--GNSS-->
+<node pkg="gnss" type="reach.py" name="gnss"  respawn="false" required="false"/>
+
+</launch>
+

@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!--
+Copyright (c) 2018, STEREOLABS.
+
+All rights reserved.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<launch>
+      <include file="/home/rover/catkin_ws/src/sick_scan/launch/sick_lms_1xx.launch"/>
+    <node pkg="tf" type="static_transform_publisher" name="connect_laser_to_map" args="0 0 0 0 0 3.14159 map laser 10" />
+    <node pkg="tf" type="static_transform_publisher" name="connect_base_link_to_laser" args="0 0 0 0 0 3.14159 laser base_link 10" />
+    
+    <node pkg="imu" type="run_Imu.py" name="imu"/>
+    <node pkg="gnss" type="reach.py" name="gnss"/>
+
+    <arg name="zed_namespace"		    	default="zed" />
+    <arg name="svo_file"                        default="" /> <!-- <arg name="svo_file" default="path/to/svo/file.svo"> -->
+
+    <arg name="zed_node_name"                   default="zed_node" />
+    <arg name="camera_model"                    default="zedm" /> <!-- 'zed' or 'zedm' -->
+    <arg name="publish_urdf"                    default="true" />
+
+    <!-- RTAB-map Node-->
+    <group ns="rtabmap">
+
+    <!-- Use RGBD synchronization -->
+    <!-- Here is a general example using a standalone nodelet, 
+         but it is recommended to attach this nodelet to nodelet 
+         manager of the camera to avoid topic serialization -->
+    <node pkg="nodelet" type="nodelet" name="rgbd_sync" args="standalone rtabmap_ros/rgbd_sync" output="screen">
+      <remap from="rgb/image"       to="/$(arg zed_namespace)/$(arg zed_node_name)/rgb/image_rect_color"/>
+      <remap from="depth/image"     to="/$(arg zed_namespace)/$(arg zed_node_name)/depth/depth_registered"/>
+      <remap from="rgb/camera_info" to="/$(arg zed_namespace)/$(arg zed_node_name)/rgb/camera_info"/>
+      <remap from="rgbd_image"      to="rgbd_image"/> <!-- output -->
+      
+      <!-- Should be true for not synchronized camera topics 
+           (e.g., false for kinectv2, zed, realsense, true for xtion, kinect360)-->
+      <param name="approx_sync"       value="false"/> 
+    </node>
+
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen">
+          <param name="frame_id" type="string" value="base_link"/>
+
+          <param name="subscribe_depth" type="bool" value="false"/>
+          <param name="subscribe_rgbd" type="bool" value="true"/>
+          <param name="subscribe_scan" type="bool" value="true"/>
+
+          <remap from="odom" to="/$(arg zed_namespace)/$(arg zed_node_name)/odom"/>
+          <remap from="scan" to="/scan"/>
+          <remap from="rgbd_image" to="rgbd_image"/>
+
+          <param name="queue_size" type="int" value="10"/>
+
+          <!-- RTAB-Map's parameters -->
+          <param name="RGBD/NeighborLinkRefining" type="string" value="true"/>
+          <param name="RGBD/ProximityBySpace"     type="string" value="true"/>
+          <param name="RGBD/AngularUpdate"        type="string" value="0.0"/>
+          <param name="RGBD/LinearUpdate"         type="string" value="0.0"/>
+          <param name="RGBD/OptimizeFromGraphEnd" type="string" value="false"/>
+          <param name="Grid/FromDepth"            type="string" value="true"/> <!-- occupancy grid from lidar -->
+          <param name="Reg/Force3DoF"             type="string" value="true"/>
+          <param name="Reg/Strategy"              type="string" value="1"/> <!-- 1=ICP -->
+          
+          <!-- ICP parameters -->
+          <param name="Icp/VoxelSize"                 type="string" value="0.05"/>
+          <param name="Icp/MaxCorrespondenceDistance" type="string" value="0.1"/>
+
+            
+    </node>
+  </group>
+</launch>
+
+

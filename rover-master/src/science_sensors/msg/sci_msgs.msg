@@ -1,0 +1,10 @@
+int16 uv_visible
+int16 uv_infared
+float32 uv_index
+float32 ambientC
+float32 objectC
+float32 ambientF
+float32 objectF
+float32 humidity_temperature
+float32 humidity
+int16 co2_ppm

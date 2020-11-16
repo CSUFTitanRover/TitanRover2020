@@ -1,0 +1,10 @@
+<launch>
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    <arg name="port" value="9090"/>
+  </include>
+  <node pkg="fake_sensor_test" type="antenna.py" name="antenna"/>
+  <node pkg="fake_sensor_test" type="postgnss.py" name="postgnss"/>
+  <node pkg="fake_sensor_test" type="postimu.py" name="postimu"/>
+  <node pkg="fake_sensor_test" type="mobility.py" name="mobility"/>
+  <node pkg="fake_sensor_test" type="ultrasonic.py" name="ultrasonic"/>
+</launch>

@@ -1,0 +1,17 @@
+<launch>
+  <node pkg="joy" type="joy_node" name="joy0">
+    <remap from="joy" to="joy/0"/>
+    <param name="dev" type="string" value="/dev/input/by-id/usb-Logitech_Logitech_Cordless_RumblePad_2-joystick"/>
+    <param name="deadzone" value="0.5" />
+    <param name="autorepeat_rate" value="10" type="double"/>
+  </node>
+  <node pkg="joy" type="joy_node" name="joy1">
+    <remap from="joy" to="joy/1"/>
+    <param name="dev" type="string" value="/dev/input/by-id/usb-Logitech_Logitech_Extreme_3D-joystick"/>
+    <param name="deadzone" value="0.5" />
+    <param name="autorepeat_rate" value="10.0" type="double"/>
+  </node>
+  <node pkg="multijoy" name="multijoy_node" type="multijoy_node.py" output="screen">
+    <param name="njoys" type="int" value="2"/>
+  </node>
+</launch>

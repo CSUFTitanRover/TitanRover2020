@@ -1,0 +1,103 @@
+{
+  "connPort": "12345",
+  "configurations": {
+    "driving": ["camera1", "camera2", "camera3", "camera4"],
+    "science": ["camera1", "camera2", "camera3", "camera4"],
+    "other": ["camera1", "camera2", "camera3", "camera4"],
+    "other1": ["camera1", "camera2", "camera3", "camera4"]
+  },
+  "devices": {
+    "video0": {
+      "device": "0",
+      "quality": [
+        {
+          "jpgQuality": 5,
+          "fps": 10,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        },
+        {
+          "jpgQuality": 15,
+          "fps": 20,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        },
+        {
+          "jpgQuality": 50,
+          "fps": 30,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        }
+      ]
+    },
+    "video2": {
+      "device": "2",
+      "quality": [
+        {
+          "jpgQuality": 5,
+          "fps": 10,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        },
+        {
+          "jpgQuality": 15,
+          "fps": 20,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        },
+        {
+          "jpgQuality": 35,
+          "fps": 30,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        }
+      ]
+    },
+    "video4": {
+      "device": "4",
+      "quality": [
+        {
+          "jpgQuality": 5,
+          "fps": 10,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        },
+        {
+          "jpgQuality": 15,
+          "fps": 20,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        },
+        {
+          "jpgQuality": 35,
+          "fps": 30,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        }
+      ]
+    },
+    "video6": {
+      "device": "0",
+      "quality": [
+        {
+          "jpgQuality": 5,
+          "fps": 10,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        },
+        {
+          "jpgQuality": 15,
+          "fps": 20,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        },
+        {
+          "jpgQuality": 35,
+          "fps": 30,
+          "resolutionX": 1280,
+          "resolutionY": 720
+        }
+      ]
+    }
+  }
+}
